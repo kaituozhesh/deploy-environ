@@ -6,13 +6,13 @@ spring:
     username: root
     password: root
     hikari:
-      minimum-idle: 5             # \u6700\u5C0F\u7A7A\u95F2\u8FDE\u63A5\u6570
-      idle-timeout: 600000        # \u7A7A\u95F2\u8FDE\u63A5\u5B58\u8D27\u6700\u5927\u65F6\u95F4\uFF0C\u9ED8\u8BA4600000\uFF0810\u5206\u949F\uFF09
-      maximum-pool-size: 10       # \u8FDE\u63A5\u6C60\u6700\u5927\u8FDE\u63A5\u6570
-      auto-commit: true           # \u63A7\u5236\u4ECE\u6C60\u8FD4\u56DE\u7684\u8FDE\u63A5\u7684\u9ED8\u8BA4\u81EA\u52A8\u63D0\u4EA4\u884C\u4E3A\uFF0C\u9ED8\u8BA4\u503C\uFF1Atree
-      pool-name: MyHikariCP       # \u8FDE\u63A5\u6C60\u540D\u5B57
-      max-lifetime: 1800000       # \u63A7\u5236\u6C60\u4E2D\u8FDE\u63A5\u7684\u6700\u957F\u751F\u547D\u5468\u671F\uFF0C\u503C0\u8868\u793A\u65E0\u7EBF\u751F\u547D\u5468\u671F\uFF0C\u9ED8\u8BA41800000\u537330\u5206\u949F
-      connection-timeout: 30000   # \u6570\u636E\u5E93\u8FDE\u63A5\u8D85\u65F6\u65F6\u95F4\uFF0C\u9ED8\u8BA430\u79D2 30000\uFF0C\u5982\u679C\u5728\u6CA1\u6709\u53EF\u7528\u8FDE\u63A5\u7684\u60C5\u51B5\u4E0B\u8D85\u8FC7\u6B64\u65F6\u95F4\uFF0C\u5219\u4F1A\u629B\u51FASQLException\u3002\u6700\u4F4E\u53EF\u63A5\u6536\u7684\u8FDE\u63A5\u8D85\u65F6\u65F6\u95F4\u4E3A250ms
+      minimum-idle: 5             # 最小空闲连接数
+      idle-timeout: 600000        # 空闲连接存货最大时间，默认600000（10分钟）
+      maximum-pool-size: 10       # 连接池最大连接数
+      auto-commit: true           # 控制从池返回的连接的默认自动提交行为，默认值：tree
+      pool-name: MyHikariCP       # 连接池名字
+      max-lifetime: 1800000       # 控制池中连接的最长生命周期，值0表示无线生命周期，默认1800000即30分钟
+      connection-timeout: 30000   # 数据库连接超时时间，默认30秒 30000，如果在没有可用连接的情况下超过此时间，则会抛出SQLException。最低可接收的连接超时时间为250ms
       connection-test-query: SELECT 1
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml

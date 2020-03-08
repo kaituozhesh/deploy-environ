@@ -1,23 +1,23 @@
 spring:
   kafka:
-    bootstrap-servers: 192.168.181.136:9092 # \u6307\u5B9AKafka Server\u7684\u5730\u5740\uFF0C\u96C6\u7FA4\u914D\u591A\u4E2A\uFF0C\u4E2D\u95F4\u9017\u53F7\u9694\u5F00
+    bootstrap-servers: 192.168.181.136:9092 # 指定Kafka Server的地址，集群配多个，中间逗号隔开
     producer:
-      retries: 0                # \u5199\u5165\u5931\u8D25\u65F6\uFF0C\u91CD\u8BD5\u6B21\u6570\u3002\u5F53leader\u8282\u70B9\u5931\u6548\uFF0C\u4E00\u4E2Arepli\u8282\u70B9\u4F1A\u66FF\u4EE3\u6210\u4E3Aleader\u8282\u70B9\uFF0C\u6B64\u65F6\u53EF\u80FD\u51FA\u73B0\u5199\u5165\u5931\u8D25\uFF0C\u5F53retries\u4E3A0\u65F6\uFF0Cproducer\u4E0D\u4F1A\u91CD\u590D
-      batch-size: 16384         # \u6BCF\u6B21\u6279\u91CF\u53D1\u9001\u6D88\u606F\u7684\u6570\u91CF\uFF0Cproducer\u79EF\u7D2F\u5230\u4E00\u5B9A\u6570\u91CF\uFF0C\u4E00\u6B21\u53D1\u9001
-      buffer-memory: 33554432   # producer\u79EF\u7D2F\u6570\u636E\u4E00\u6B21\u53D1\u9001\uFF0C\u7F13\u5B58\u5927\u5C0F\u8FBE\u5230buffer money\u5C31\u53D1\u9001\u6570\u636E
-      acks: 1 # producer\u8981\u6C42leader\u5728\u8003\u8651\u5B8C\u6210\u8BF7\u6C42\u4E4B\u524D\u6536\u5230\u7684\u786E\u8BA4\u6570\uFF0C\u7528\u4E8E\u63A7\u5236\u53D1\u9001\u8BB0\u5F55\u5728\u670D\u52A1\u7AEF\u7684\u6301\u4E45\u5316\uFF0C\u5176\u503C\u53EF\u4EE5\u4E3A\u5982\u4E0B
-        # acks: 0   producer \u4E0D\u4F1A\u7B49\u5F85\u670D\u52A1\u5668\u7684\u53CD\u9988\u3002\u8BE5\u6D88\u606F\u4F1A\u88AB\u7ACB\u523B\u6DFB\u52A0\u5230 socket buffer \u4E2D\u5E76\u8BA4\u4E3A\u5DF2\u7ECF\u53D1\u9001\u5B8C\u6210\u3002\u5728\u8FD9\u79CD\u60C5\u51B5\u4E0B\uFF0C\u670D\u52A1\u5668\u662F\u5426\u6536\u5230\u8BF7\u6C42\u662F\u6CA1\u6CD5\u4FDD\u8BC1\u7684\uFF0C\u5E76\u4E14\u53C2\u6570retries\u4E5F\u4E0D\u4F1A\u751F\u6548\uFF08\u56E0\u4E3A\u5BA2\u6237\u7AEF\u65E0\u6CD5\u83B7\u5F97\u5931\u8D25\u4FE1\u606F\uFF09\u3002\u6BCF\u4E2A\u8BB0\u5F55\u8FD4\u56DE\u7684 offset \u603B\u662F\u88AB\u8BBE\u7F6E\u4E3A-1\u3002
-        # acks: 1   leader\u8282\u70B9\u4F1A\u5C06\u8BB0\u5F55\u5199\u5165\u672C\u5730\u65E5\u5FD7\uFF0C\u4F46\u65E0\u9700\u7B49\u5F85\u6240\u6709follower\u8282\u70B9\u53CD\u9988\u786E\u8BA4\u6210\u529F\u5373\u53EF\u505A\u51FA\u56DE\u5E94\u3002\u5728\u8FD9\u79CD\u60C5\u51B5\u4E0B\uFF0C\u5982\u679C leader \u8282\u70B9\u5728\u63A5\u6536\u8BB0\u5F55\u4E4B\u540E\uFF0C\u5E76\u4E14\u5728 follower \u8282\u70B9\u590D\u5236\u6570\u636E\u5B8C\u6210\u4E4B\u524D\u4EA7\u751F\u9519\u8BEF\uFF0C\u5219\u8FD9\u6761\u8BB0\u5F55\u4F1A\u4E22\u5931
-        # acks: all leader \u8282\u70B9\u4F1A\u7B49\u5F85\u6240\u6709\u540C\u6B65\u4E2D\u7684\u526F\u672C\u786E\u8BA4\u4E4B\u540E\u518D\u786E\u8BA4\u8FD9\u6761\u8BB0\u5F55\u662F\u5426\u53D1\u9001\u5B8C\u6210\u3002\u53EA\u8981\u81F3\u5C11\u6709\u4E00\u4E2A\u540C\u6B65\u526F\u672C\u5B58\u5728\uFF0C\u8BB0\u5F55\u5C31\u4E0D\u4F1A\u4E22\u5931\u3002\u8FD9\u79CD\u65B9\u5F0F\u662F\u5BF9\u8BF7\u6C42\u4F20\u9012\u7684\u6700\u6709\u6548\u4FDD\u8BC1\u3002acks=-1\u4E0Eacks=all\u662F\u7B49\u6548\u7684\u3002
-      # \u6307\u5B9A\u6D88\u606Fkey\u548C\u6D88\u606F\u4F53\u7684\u7F16\u89E3\u7801\u65B9\u5F0F
+      retries: 0                # 写入失败时，重试次数。当leader节点失效，一个repli节点会替代成为leader节点，此时可能出现写入失败，当retries为0时，producer不会重复
+      batch-size: 16384         # 每次批量发送消息的数量，producer积累到一定数量，一次发送
+      buffer-memory: 33554432   # producer积累数据一次发送，缓存大小达到buffer money就发送数据
+      acks: 1 # producer要求leader在考虑完成请求之前收到的确认数，用于控制发送记录在服务端的持久化，其值可以为如下
+        # acks: 0   producer 不会等待服务器的反馈。该消息会被立刻添加到 socket buffer 中并认为已经发送完成。在这种情况下，服务器是否收到请求是没法保证的，并且参数retries也不会生效（因为客户端无法获得失败信息）。每个记录返回的 offset 总是被设置为-1。
+        # acks: 1   leader节点会将记录写入本地日志，但无需等待所有follower节点反馈确认成功即可做出回应。在这种情况下，如果 leader 节点在接收记录之后，并且在 follower 节点复制数据完成之前产生错误，则这条记录会丢失
+        # acks: all leader 节点会等待所有同步中的副本确认之后再确认这条记录是否发送完成。只要至少有一个同步副本存在，记录就不会丢失。这种方式是对请求传递的最有效保证。acks=-1与acks=all是等效的。
+      # 指定消息key和消息体的编解码方式
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 
     consumer:
-      group-id: default_consumer_group  # \u7FA4\u7EC4ID
-      enable-auto-commit: true          # \u662F\u5426\u81EA\u52A8\u63D0\u4EA4offset
-      auto-commit-interval: 1000        # \u81EA\u52A8\u63D0\u4EA4\u65F6\u95F4\u95F4\u9694 \u5355\u4F4D\uFF1A\u6BEB\u79D2 \u9ED8\u8BA4\uFF1A5000
-      # \u6307\u5B9A\u6D88\u606Fkey\u548C\u6D88\u606F\u4F53\u7684\u7F16\u89E3\u7801\u65B9\u5F0F
+      group-id: default_consumer_group  # 群组ID
+      enable-auto-commit: true          # 是否自动提交offset
+      auto-commit-interval: 1000        # 自动提交时间间隔 单位：毫秒 默认：5000
+      # 指定消息key和消息体的编解码方式
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
