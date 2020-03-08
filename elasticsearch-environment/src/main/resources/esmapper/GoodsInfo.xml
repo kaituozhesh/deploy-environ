@@ -1,0 +1,102 @@
+<properties>
+    <!-- 创建索引 -->
+    <property name="createGoodsInfoIndex">
+        <![CDATA[{
+            "settings": {
+                "number_of_shards": 3,
+                "index.refresh_interval": "5s",
+                "analysis" : {
+                    "analyzer" : {
+                        "ik" : {
+                            "tokenizer" : "ik_max_word"
+                        }
+                    }
+                }
+            },
+            "mappings": {
+                "goods_info": {
+                    "properties": {
+                        "infoId":{"type":"text"},
+                        "goodsSn":{"type": "keyword"},
+                        "categoryId": {"type": "long"},
+                        "cateParentId": {"type": "long"},
+                        "categoryName": {"type": "text", "analyzer": "ik_max_word"},
+                        "brandId": {"type": "long"},
+                        "brandName": {"type": "text", "analyzer": "ik_max_word"},
+                        "seriesId": {"type": "long"},
+                        "seriesName":{"type":"text", "analyzer": "ik_max_word"},
+                        "goodsName":{"type":"text", "analyzer": "ik_max_word", "index_options": "offsets"},
+                        "goodsCode":{"type":"keyword", "doc_values":false},
+                        "areaCode":{"type":"keyword"},
+                        "showPics":{"type":"keyword", "doc_values":false},
+                        "publishStatus":{"type":"integer"},
+                        "newStatus":{"type":"text"},
+                        "newStatusStr":{"type":"text"},
+                        "recommandStatus":{"type":"integer"},
+                        "price":{"type":"text"},
+                        "minPrice":{"type":"double"},
+                        "localPrice":{"type":"text", "doc_values":false},
+                        "expressType":{"type":"integer", "doc_values":false},
+                        "subTitle":{"type":"text", "analyzer": "ik_max_word", "index_options": "offsets"},
+                        "description":{"type":"text", "analyzer": "ik_max_word", "doc_values":false},
+                        "keywords":{"type":"text", "analyzer": "ik_max_word", "doc_values":false},
+                        "supplyId":{"type":"long", "doc_values":false},
+                        "sortOrder":{"type":"integer"},
+                        "disabled":{"type":"integer"}
+                    }
+                }
+            }
+        }]]>
+    </property>
+
+
+    <!-- 搜索相似商品 -->
+    <property name="search_resemblance_goods">
+        <![CDATA[{
+            "query": {
+                "bool": {
+                    #if($categoryId)
+                    "must": {
+                        "bool": {
+                            "should": {
+                                "multi_match" : {
+                                    "query" : #[categoryId],
+                                    "fields": ["categoryId", "cateParentId"]
+                                }
+                            }
+                        }
+                    },
+                    #end
+                    "must_not":{ "match": { "goodsSn": #[goodsSn] }}
+                }
+            },
+            "from":#[from],
+            "size":#[size]
+        }]]>
+    </property>
+
+
+    <property name="search_recommend_goods">
+        <![CDATA[{
+            "query": {
+                "bool": {
+                    "must": [
+                        { "term": { "recommandStatus": 1 }},          ## 推荐商品
+                        { "term": { "areaCode": #[areaCode] }}        ## 国家
+                    ]
+                }
+            },
+            "sort": {
+                "_script": {
+                    "script": "Math.random()",
+                    "type": "number",
+                    "order": "asc"
+                }
+            },
+            "from": #[from],
+            "size": #[size]
+        }]]>
+    </property>
+
+
+</properties>
