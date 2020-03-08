@@ -1,0 +1,10 @@
+feign:
+  httpclient:
+    enabled: true
+    connection-timeout: 20000
+    max-connections: 200
+    max-connections-per-route: 100
+    time-to-live-unit: seconds
+    time-to-live: 20
+server:
+  port: 7777
