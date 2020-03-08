@@ -24,3 +24,39 @@ spring:
         refreshInterval: -1  # dsl配置文件热加载扫描时间间隔，毫秒为单位，默认5秒扫描一次，<= 0时关闭扫描机制
     rest:
       uris: localhost:9200
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/deploy?characterEncoding=utf8&useUnicode=true&useSSL=false&useTimezone=true&serverTimezone=GMT%2B8
+    druid:
+      initial-size: 5     # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+      max-active: 10      # 连接池中最多支持多少个活动会话
+      min-idle: 1         # 最小空闲连接，回收空闲连接时，将保证至少有min-idle个连接
+      max-wait: 60000     # 程序向连接池中请求连接超时，超过max-wait的值后，认为本次请求失败，即连接池没有可用连接，单位毫秒，设置-1时表示无限等待
+      # 获取连接时最大等待时间，单位毫秒。配置max-wait之后，默认启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用费公平锁
+      pool-prepared-statements: true            # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭
+      validation-query: SELECT 1 FROM DUAL      # 检查池中的连接是否仍可用的SQL语句，druid会连接到数据库执行该SQL，如果正常返回，则表示连接可用，否则表示连接不可用
+      validation-query-timeout: 10000           # 单位：秒，检测连接是否有效的超时时间。底层调用jdbdStatement对象的void setQueryTimeout(int seconds)方法
+      test-on-borrow: true                      # 程序 申请 连接时，进行连接有效性检查（低效，影响性能）
+      test-on-return: false                     # 程序 返还 连接时，进行连接有效性检查（低效，影响性能）
+      test-while-idle: true                     # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于time-between-eviction-runs-millis，执行validation-query检测连接是否有效
+      time-between-eviction-runs-millis: 60000  # 有两个含义：
+        # Destroy现场会检测连接的间隔时间，如果连接空闲时间大于等于min-evictable-idle-time-millis则关闭物理连接
+      # test-while-idle的判断依据
+      min-evictable-idle-time-millis: 30000     # 池中某个连接的空闲时长达到N毫秒后，连接池在下次检查空闲连接时，将回收该连接，要小于防火墙超时设置
+      filters: stat                             # stat：监控统计   log4j/slf4j：日志监控   wall：防御SQL注入
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.ktz.deploy.elasticsearch.entity
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false

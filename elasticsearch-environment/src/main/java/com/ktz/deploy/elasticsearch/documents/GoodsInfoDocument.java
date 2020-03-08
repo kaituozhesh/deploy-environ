@@ -1,5 +1,6 @@
 package com.ktz.deploy.elasticsearch.documents;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.frameworkset.orm.annotation.ESId;
 import lombok.Data;
 import org.frameworkset.elasticsearch.entity.ESBaseData;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  * @author kaituozhe_sh
  */
 @Data
+@TableName("goods_info")
 public class GoodsInfoDocument extends ESBaseData implements Serializable {
 
     private static final long serialVersionUID = 1L;

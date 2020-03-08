@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * ClassName: GoodsInfoDocument
- * Description:
+ * Description: 索引创建
  * date: 2020/3/8 19:45
  *
  * @author kaituozhe_sh

@@ -26,23 +26,9 @@
                         "seriesId": {"type": "long"},
                         "seriesName":{"type":"text", "analyzer": "ik_max_word"},
                         "goodsName":{"type":"text", "analyzer": "ik_max_word", "index_options": "offsets"},
-                        "goodsCode":{"type":"keyword", "doc_values":false},
-                        "areaCode":{"type":"keyword"},
-                        "showPics":{"type":"keyword", "doc_values":false},
-                        "publishStatus":{"type":"integer"},
                         "newStatus":{"type":"text"},
-                        "newStatusStr":{"type":"text"},
-                        "recommandStatus":{"type":"integer"},
                         "price":{"type":"text"},
-                        "minPrice":{"type":"double"},
-                        "localPrice":{"type":"text", "doc_values":false},
-                        "expressType":{"type":"integer", "doc_values":false},
-                        "subTitle":{"type":"text", "analyzer": "ik_max_word", "index_options": "offsets"},
-                        "description":{"type":"text", "analyzer": "ik_max_word", "doc_values":false},
-                        "keywords":{"type":"text", "analyzer": "ik_max_word", "doc_values":false},
-                        "supplyId":{"type":"long", "doc_values":false},
-                        "sortOrder":{"type":"integer"},
-                        "disabled":{"type":"integer"}
+                        "sortOrder":{"type":"integer"}
                     }
                 }
             }
@@ -50,53 +36,45 @@
     </property>
 
 
-    <!-- 搜索相似商品 -->
-    <property name="search_resemblance_goods">
+    <!-- 商品搜索 -->
+    <property name="GoodsSearch">
         <![CDATA[{
-            "query": {
-                "bool": {
-                    #if($categoryId)
-                    "must": {
-                        "bool": {
-                            "should": {
-                                "multi_match" : {
-                                    "query" : #[categoryId],
-                                    "fields": ["categoryId", "cateParentId"]
-                                }
-                            }
-                        }
-                    },
-                    #end
-                    "must_not":{ "match": { "goodsSn": #[goodsSn] }}
-                }
-            },
-            "from":#[from],
-            "size":#[size]
-        }]]>
-    </property>
-
-
-    <property name="search_recommend_goods">
-        <![CDATA[{
+            #set( $mustComma = false )
+            #set( $sortComma = false )
+            #set( $globalComma = false )
             "query": {
                 "bool": {
                     "must": [
-                        { "term": { "recommandStatus": 1 }},          ## 推荐商品
-                        { "term": { "areaCode": #[areaCode] }}        ## 国家
+                        #if($brandId || $seriesId || $newStatus)
+                            #if($brandId)
+                                #if($mustComma),#end
+                                { "term": { "brandId": #[brandId] }}          ## 品牌
+                                 #set( $mustComma = true )
+                            #end
+                            #if($seriesId)
+                                #if($mustComma),#end
+                                { "term": { "seriesId": #[seriesId] }}        ## 系列
+                                 #set( $mustComma = true )
+                            #end
+                            #if($newStatus)
+                                #if($mustComma),#end
+                                {
+                                   "wildcard": {
+                                        "newStatus": #[newStatus]
+                                    }
+                                }
+                            #end
+                            #set( $globalComma = true )
+                        #end
                     ]
                 }
-            },
-            "sort": {
-                "_script": {
-                    "script": "Math.random()",
-                    "type": "number",
-                    "order": "asc"
-                }
-            },
-            "from": #[from],
-            "size": #[size]
+            }
         }]]>
     </property>
 
-
+    <property name="deleteIndexData">
+        <![CDATA[{
+            "query": {"match_all": {}}
+        }]]>
+    </property>
 </properties>
