@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ktz.deploy.dynamic.datasource.mapper.UserMapper">
+
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `uid`, hangye, org_name, create_by, create_date, update_by, update_date, remarks, del_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.ktz.deploy.dynamic.datasource.entity.SysUser">
+        select id, uid
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+
+</mapper>
