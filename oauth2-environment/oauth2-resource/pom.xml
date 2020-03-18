@@ -9,13 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>oauth2-server</artifactId>
-    <licenses>
-        <license>
-            <name>Apache 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+    <artifactId>oauth2-resource</artifactId>
 
     <dependencies>
         <!-- Spring Boot -->
@@ -27,6 +21,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+        <!-- Spring Security -->
         <!-- springboot2.0已经将oauth2.0与security整合在一起 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -39,6 +34,7 @@
             <version>2.0.0.RELEASE</version>
         </dependency>
 
+        <!-- CP -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
@@ -55,7 +51,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -80,7 +75,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.ktz.deploy.oauth2.server.OAuth2ServerApplication</mainClass>
+                    <mainClass>com.ktz.deploy.oauth2.resource.OAuth2ResourceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

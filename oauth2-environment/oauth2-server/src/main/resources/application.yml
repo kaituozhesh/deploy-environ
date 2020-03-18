@@ -16,3 +16,7 @@ spring:
       connection-test-query: SELECT 1
 server:
   port: 8080
+
+mybatis:
+  type-aliases-package: com.ktz.deploy.oauth2.server.domain
+  mapper-locations: classpath:mapper/*.xml
