@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: service-consumer
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.41.129:8848
+      config:
+        server-addr: 192.168.41.129:8848
+        file-extension: yaml
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

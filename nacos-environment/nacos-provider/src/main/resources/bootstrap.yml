@@ -1,15 +1,20 @@
 spring:
   application:
     # 服务名
-    name: service-consumer
+    name: service-provider
+  profiles:
+    active: dev
   cloud:
     nacos:
       discovery:
         # 服务注册中心
         server-addr: 192.168.41.129:8848
+      config:
+        server-addr: 192.168.41.129:8848
+        file-extension: yaml
 server:
   # 服务端口
-  port: 8080
+  port: 8070
 management:
   # 端点检查（健康检查）
   endpoints:

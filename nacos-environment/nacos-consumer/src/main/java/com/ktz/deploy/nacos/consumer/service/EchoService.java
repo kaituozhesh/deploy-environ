@@ -13,4 +13,7 @@ public interface EchoService {
 
     @GetMapping(value = "/lb")
     String lb();
+
+    @GetMapping("/show/{name}")
+    String echoName(@PathVariable String name);
 }

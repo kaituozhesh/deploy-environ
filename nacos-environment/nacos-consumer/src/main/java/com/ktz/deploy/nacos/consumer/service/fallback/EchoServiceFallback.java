@@ -21,4 +21,9 @@ public class EchoServiceFallback implements EchoService {
     public String lb() {
         return "lb fail";
     }
+
+    @Override
+    public String echoName(String name) {
+        return "echoName fail";
+    }
 }

@@ -27,4 +27,11 @@ public class EchoController {
     public String lb() {
         return "Hello Naocs Provider i am from port:" + port;
     }
+
+    @GetMapping("/show/{name}")
+    public String echoName(@PathVariable String name) {
+        return "= " + name + " =";
+    }
+
+
 }
